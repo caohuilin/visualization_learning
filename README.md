@@ -139,7 +139,7 @@ svg 通过设置 viewBox 来改变坐标系
 
 一个通用计算机图形系统主要包括 6 个部分，分别是输入设备、中央处理单元、图形处理单元、存储器、帧缓存和输出设备。
 
-<image src="https://raw.githubusercontent.com/caohuilin/visualization_learning/master/render_process.jepg" />
+<image src="https://github.com/caohuilin/visualization_learning/blob/master/render_process.jpeg" />
 
 #### 相关概念
 
