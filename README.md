@@ -53,6 +53,14 @@ const context = canvas.getContext('2d');
 
 4. context.fill 将绘制的内容真正输出到画布中
 
+##### 状态信息
+
+1. fillStyle 绘制填充颜色
+
+2. font 字体信息
+
+3. textAlign 对齐方式
+
 ##### 部分 API
 
 1. 绘制矩形 rect
@@ -81,4 +89,18 @@ context.save(); // 暂存状态
 
 ```
 context.restore(); // 恢复状态
+```
+
+5. 绘制圆形 arc
+
+```canvas
+ctx.arc(x, y, r, 0, TAU);
+```
+
+五个参数，前两个参数为圆心位置，r 为圆半径，后两个参数为起始角度和终止角度
+
+6. 填充文本 fillText
+
+```canvas
+ctx.fillText(name, x, y);
 ```
