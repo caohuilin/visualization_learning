@@ -30,9 +30,11 @@ function draw(
   circle.setAttribute("cy", String(y));
   circle.setAttribute("r", String(r));
   circle.setAttribute("fill", fillStyle);
+  circle.setAttribute("data-name", node.data.name);
   parent.appendChild(circle);
   if (children) {
     const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    group.setAttribute("data-name", node.data.name);
     for (let i = 0; i < children.length; i++) {
       draw(group, children[i], { fillStyle, textColor });
     }
@@ -52,3 +54,29 @@ function draw(
 }
 
 draw(svgroot, root);
+
+function getTitle(target: SVGGraphicsElement) {
+  const name = target.getAttribute("data-name");
+  if (target.parentNode && target.parentNode.nodeName === "g") {
+    const parentName = (target.parentNode as SVGGraphicsElement).getAttribute(
+      "data-name"
+    );
+    return `${parentName}-${name}`;
+  }
+  return name;
+}
+
+let activeTarget: SVGGraphicsElement | null = null;
+svgroot.addEventListener("mousemove", (evt) => {
+  let target = evt.target as SVGGraphicsElement;
+  if (target.nodeName === "text") {
+    target = target.parentNode as SVGGraphicsElement;
+  }
+  if (activeTarget !== target) {
+    if (activeTarget) activeTarget.setAttribute("fill", "rgba(0, 0, 0, 0.2)");
+  }
+  target.setAttribute("fill", "rgba(255, 0, 0, 0.2)");
+  const titleEl = document.getElementById("title")!;
+  titleEl.textContent = getTitle(target);
+  activeTarget = target;
+});
