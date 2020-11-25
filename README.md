@@ -94,7 +94,7 @@ context.restore(); // 恢复状态
 5. 绘制圆形 arc
 
 ```canvas
-ctx.arc(x, y, r, 0, TAU);
+context.arc(x, y, r, 0, TAU);
 ```
 
 五个参数，前两个参数为圆心位置，r 为圆半径，后两个参数为起始角度和终止角度
@@ -102,5 +102,13 @@ ctx.arc(x, y, r, 0, TAU);
 6. 填充文本 fillText
 
 ```canvas
-ctx.fillText(name, x, y);
+context.fillText(name, x, y);
+```
+
+7. 擦除 clearRect
+
+把像素设置为透明，实现擦除一个矩形区域。
+
+```canvas
+context.clearRect(x, y, width, height);
 ```
