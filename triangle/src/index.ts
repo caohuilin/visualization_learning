@@ -2,6 +2,8 @@ const canvas = document.querySelector("canvas")!;
 const gl = canvas.getContext("webgl")!;
 
 const vertex = `
+#pragma vscode_glsllint_stage
+
 attribute vec2 position;
 varying vec3 color;
 void main() {
@@ -10,9 +12,11 @@ void main() {
   gl_Position = vec4(position * 0.5, 1.0, 1.0);}
 `;
 const fragment = `
+#pragma vscode_glsllint_stage
+
 precision mediump float;
 varying vec3 color;
-void main(){
+void main() {
   gl_FragColor = vec4(color, 1.0);
 }
 `;
