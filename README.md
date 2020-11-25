@@ -112,3 +112,25 @@ context.fillText(name, x, y);
 ```canvas
 context.clearRect(x, y, width, height);
 ```
+
+## svg
+
+声明式绘图系统, 声明一些标签就可以实现绘图
+
+### 坐标系
+
+以图像左上角为原点，x 轴向右，y 轴向下的左手坐标系，在默认情况下，SVG 坐标与浏览器像素对应。
+
+svg 通过设置 viewBox 来改变坐标系
+
+### 绘制
+
+创建 svg 节点使用 createElementNS
+
+### 部分 API
+
+1. 圆形
+
+```xml
+<circle cx="100" cy="50" r="40" stroke="black" stroke-width="2" fill="orange" />
+```
