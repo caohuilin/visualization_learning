@@ -282,8 +282,8 @@ gl.drawArrays(gl.TRIANGLES, 0, points.length / 2);
 attribute vec2 position;
 ```
 
-2. gl_FragColor 定义和改变图形的颜色, 表示当前像素点颜色，是一个用 RGBA 色值表示的四维向量数据。
+2. gl_FragColor: 定义和改变图形的颜色, 表示当前像素点颜色，是一个用 RGBA 色值表示的四维向量数据。
 
-3. gl_Position 设置顶点
+3. gl_Position: 设置顶点
 
-4. varying 顶点着色器还可以将数据通过 varying 变量传给片元着色器
+4. varying: 由顶点着色器传输给片段着色器中的插值数据
