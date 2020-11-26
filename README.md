@@ -406,3 +406,126 @@ a x b = |a||b|sin(α)
 <image src="https://github.com/caohuilin/visualization_learning/blob/master/qbc_2.jpeg" />
 
 其他贝塞尔曲线方程详见: http://math001.com/bezier_curve/
+
+## 填充多边形
+
+### canvas 和 svg 填充多边形
+
+使用 context.fill 完成
+
+支持两种规则
+
+- nonzero 由边围起来的区域都一律填充
+
+- evenodd 根据重叠区域是奇数还是偶数来判断是否填充
+
+### WebGL 填充多边形
+
+1. 三角剖分： 将多边形分割成若干个三角形的操作
+
+相关库
+
+- https://github.com/mapbox/earcut
+
+- https://github.com/memononen/tess2.js
+
+- https://github.com/mikolalysenko/cdt2d
+
+2. 调用 gl.drawElements
+
+支持渲染模式
+
+- gl.POINTS: 画单独的点。
+
+- gl.LINE_STRIP: 画一条直线到下一个顶点。
+
+- gl.LINE_LOOP: 绘制一条直线到下一个顶点，并将最后一个顶点返回到第一个顶点.
+
+- gl.LINES: 在一对顶点之间画一条线.
+
+- gl.TRIANGLE_STRIP [https://en.wikipedia.org/wiki/Triangle_strip]
+
+- gl.TRIANGLE_FAN [https://en.wikipedia.org/wiki/Triangle_fan]
+
+- gl.TRIANGLES: 为一组三个顶点绘制一个三角形.
+
+## 判断点在多边形内部
+
+1. 使用 Canvas 的 isPointInPath 方法
+
+```
+const {left, top} = canvas.getBoundingClientRect();
+
+canvas.addEventListener('mousemove', (evt) => {
+  const {x, y} = evt;
+  // 坐标转换
+  const offsetX = x - left;
+  const offsetY = y - top;
+
+  ctx.clearRect(-256, -256, 512, 512);
+
+  if(ctx.isPointInPath(offsetX, offsetY)) {
+    // 在内部操作
+  } else {
+    // 不在内部操作
+  }
+});
+```
+
+> isPointInPath 方法只能对当前绘制的图形生效
+
+2. 实现通用的 isPointInPath 方法
+
+将多边形进行三角抛分，判断点是否在三角形中
+
+原理：
+
+1. 已知一个三角形的三条边分别是向量 a、b、c，平面上一点 u 连接三角形三个顶点的向量分别为 u1、u2、u3，那么 u 点在三角形内部的充分必要条件是：u1 X a、u2 X b、u3 X c 的符号相同
+
+2. 如果一个点 u1 在三角形的一条边 a 上，那就会需要满足以下 2 个条件：
+
+- a.cross(u1) === 0
+
+- 0 <= a.dot(u1) / a.length \*\* 2 <= 1
+
+```
+function inTriangle(p1, p2, p3, point) {
+  const a = p2.copy().sub(p1);
+  const b = p3.copy().sub(p2);
+  const c = p1.copy().sub(p3);
+
+  const u1 = point.copy().sub(p1);
+  const u2 = point.copy().sub(p2);
+  const u3 = point.copy().sub(p3);
+
+  const s1 = Math.sign(a.cross(u1));
+  let p = a.dot(u1) / a.length ** 2;
+  if(s1 === 0 && p >= 0 && p <= 1) return true;
+
+  const s2 = Math.sign(b.cross(u2));
+  p = b.dot(u1) / b.length ** 2;
+  if(s2 === 0 && p >= 0 && p <= 1) return true;
+
+  const s3 = Math.sign(c.cross(u3));
+  p = c.dot(u1) / c.length ** 2;
+  if(s3 === 0 && p >= 0 && p <= 1) return true;
+
+  return s1 === s2 && s2 === s3;
+}
+```
+
+```
+function isPointInPath({ vertices, cells }, point) {
+  let ret = false;
+  for (let i = 0; i < cells.length; i += 3) {
+    const p1 = new Vector2D(...vertices[cells[i]]);
+    const p2 = new Vector2D(...vertices[cells[i + 1]]);
+    const p3 = new Vector2D(...vertices[cells[i + 2]]);
+    if (inTriangle(p1, p2, p3, point)) {
+      ret = true;
+      break;
+    }
+  }
+  return ret;
+}
+```
