@@ -392,3 +392,17 @@ a x b = |a||b|sin(α)
 归一化后的向量方向不变，长度为 1
 
 在向量乘法里，如果 a、b 都是长度为 1 的归一化向量，那么|a X b| 的结果就是 a、b 夹角的正弦值，而|a • b|的结果就是 a、b 夹角的余弦值
+
+## 曲线
+
+### 通用曲线
+
+通用曲线通过参数方程进行描述
+
+### 贝塞尔曲线
+
+贝塞尔曲线又分为二阶贝塞尔曲线和三阶贝塞尔曲线。二阶贝塞尔曲线的参数方程是一元二次多项式，三阶贝塞尔曲线的参数方程是一元三次多项式。
+
+<image src="https://github.com/caohuilin/visualization_learning/blob/master/qbc_2.jpeg" />
+
+其他贝塞尔曲线方程详见: http://math001.com/bezier_curve/
