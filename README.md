@@ -327,3 +327,68 @@ attribute vec2 position;
 3. gl_Position: 设置顶点
 
 4. varying: 由顶点着色器传输给片段着色器中的插值数据
+
+## 向量相关知识
+
+向量 v 有两个含义：一是可以表示该坐标系下位于 (x, y) 处的一个点；二是可以表示从原点 (0,0) 到坐标 (x,y) 的一根线段
+
+### 长度
+
+```
+v.length = Math.hypot(this.x, this.y)
+```
+
+### 方向
+
+```
+v.dir = Math.atan2(this.y, this.x)
+```
+
+### 向量加法
+
+<image src="https://github.com/caohuilin/visualization_learning/blob/master/vector_add.jpeg" />
+
+### 根据长度和方向求向量
+
+```
+v.x = v.length * Math.cos(v.dir);
+v.y = v.length * Math.sin(v.dir);
+```
+
+> 如果希望以点 (x0, y0) 为起点，沿着某个方向画一段长度为 length 的线段，只需要构造出如下的一个向量就可以了。
+
+<image src="https://github.com/caohuilin/visualization_learning/blob/master/1.jpeg" />
+
+> 这里的 α 是与 x 轴的夹角，v 是一个单位向量，它的长度为 1。然后我们把向量 (x0, y0) 与这个向量 v1 相加，得到的就是这条线段的终点
+
+### 向量的点乘
+
+在 N 维线性空间中，a、b 向量点积的几何含义，是 a 向量乘以 b 向量在 a 向量上的投影分量。它的物理含义相当于 a 力作用于物体，产生 b 位移所做的功
+
+```
+a•b = |a||b|cos(α)
+```
+
+> 当 a、b 两个向量平行时，它们的夹角就是 0°，那么 a·b=|a||b|
+
+> 当 a、b 两个向量垂直时，它们的夹角就是 90°，那么 a·b=0
+
+### 向量的叉乘
+
+以二维空间为例，向量 a 和 b 的叉积，就相当于向量 a 与向量 b 沿垂直方向的投影的乘积
+
+二维向量叉乘的几何意义是向量 a、b 组成的平行四边形的面积
+
+二维=向量叉乘的物理意义就是 a 和 b 的力矩
+
+```
+a x b = |a||b|sin(α)
+```
+
+### 归一化。
+
+用 v0 的 x、y 分别除以它的绝对值
+
+归一化后的向量方向不变，长度为 1
+
+在向量乘法里，如果 a、b 都是长度为 1 的归一化向量，那么|a X b| 的结果就是 a、b 夹角的正弦值，而|a • b|的结果就是 a、b 夹角的余弦值
