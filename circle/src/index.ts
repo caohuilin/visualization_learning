@@ -84,8 +84,8 @@ function parabola(x0: number, y0: number, p: number, min: number, max: number) {
 
 function draw(
   points: [number, number][],
-  strokeStyle = "black",
-  fillStyle = null
+  ctx: CanvasRenderingContext2D,
+  { strokeStyle = "black", fillStyle = null, close = false } = {}
 ) {
   ctx.strokeStyle = strokeStyle;
   ctx.beginPath();
@@ -101,7 +101,47 @@ function draw(
   ctx.stroke();
 }
 
-draw(arc(0, 0, 100));
-draw(ellipse(0, 0, 100, 50));
-draw(ellipse(0, 0, 50, 100));
-draw(parabola(0, 0, 10, -20, 10));
+// draw(arc(0, 0, 100), ctx);
+// draw(ellipse(0, 0, 100, 50), ctx);
+// draw(ellipse(0, 0, 50, 100), ctx);
+// draw(parabola(0, 0, 10, -10, 10), ctx);
+
+/**
+ * 根据参数方程生成曲线方程
+ * @param xFunc x 计算函数
+ * @param yFunc y 计算函数
+ */
+export function parametric(
+  xFunc: (t: number, ...args: any[]) => number,
+  yFunc: (t: number, ...args: any[]) => number
+) {
+  return function (start: number, end: number, seg = 100, ...args: any[]) {
+    const points: [number, number][] = [];
+    for (let i = 0; i <= seg; i++) {
+      const p = i / seg;
+      const t = start * (1 - p) + end * p;
+      const x = xFunc(t, ...args); // 计算参数方程组的x
+      const y = yFunc(t, ...args); // 计算参数方程组的y
+      points.push([x, y]);
+    }
+    return { draw: draw.bind(null, points), points };
+  };
+}
+
+const para = parametric(
+  (t) => 25 * t,
+  (t) => 25 * t ** 2
+); // 绘制抛物线
+para(-5.5, 5.5).draw(ctx);
+
+const helical = parametric(
+  (t, l) => l * t * Math.cos(t),
+  (t, l) => l * t * Math.sin(t)
+);
+helical(0, 50, 500, 5).draw(ctx, { strokeStyle: "blue" });
+
+const star = parametric(
+  (t, l) => l * Math.cos(t) ** 3,
+  (t, l) => l * Math.sin(t) ** 3
+);
+star(0, Math.PI * 2, 50, 150).draw(ctx, { strokeStyle: "red" });
