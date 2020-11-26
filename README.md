@@ -51,7 +51,7 @@ const context = canvas.getContext('2d');
 
 3. 调用绘制指令
 
-4. context.fill 将绘制的内容真正输出到画布中
+4. context.fill 将绘制的内容真正输出到画布中 || context.stroke 绘制已经存在的路径
 
 ##### 状态信息
 
@@ -60,6 +60,14 @@ const context = canvas.getContext('2d');
 2. font 字体信息
 
 3. textAlign 对齐方式
+
+4. lineCap 线条末端样式
+
+- butt 方形
+
+- round 圆形
+
+- square 以方形结束，但是增加了一个宽度和线段相同，高度是线段厚度一半的矩形区域
 
 ##### 部分 API
 
@@ -75,6 +83,12 @@ context.rect(x, y, width, height);
 
 ```canvas
 context.translate(dx, dy)
+```
+
+3. 旋转画布 scale
+
+```canvas
+context.scale(1, -1) // x 轴不变 y 轴翻转 180 度
 ```
 
 3. 暂存画布状态 save
@@ -111,6 +125,32 @@ context.fillText(name, x, y);
 
 ```canvas
 context.clearRect(x, y, width, height);
+```
+
+8. 创建一个新的路径 beginPath
+
+```canvas
+ctx.beginPath();
+```
+
+9. 移动画笔 moveTo
+
+```canvas
+ctx.moveTo(50,50);
+```
+
+10. 直线链接当前点与目标点 lineTo
+
+```canvas
+ctx.lineTo(100, 100)
+```
+
+> 注意: 不会真正绘制
+
+11. 绘制当前或已经存在的路径 stroke
+
+```canvas
+ctx.stroke()
 ```
 
 ## svg
