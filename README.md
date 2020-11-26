@@ -357,7 +357,7 @@ v.y = v.length * Math.sin(v.dir);
 
 > 如果希望以点 (x0, y0) 为起点，沿着某个方向画一段长度为 length 的线段，只需要构造出如下的一个向量就可以了。
 
-<image src="https://github.com/caohuilin/visualization_learning/blob/master/1.jpeg" />
+<image src="https://github.com/caohuilin/visualization_learning/blob/master/vector_1.jpeg" />
 
 > 这里的 α 是与 x 轴的夹角，v 是一个单位向量，它的长度为 1。然后我们把向量 (x0, y0) 与这个向量 v1 相加，得到的就是这条线段的终点
 
