@@ -62,9 +62,10 @@ function drawBranch(
   context.stroke();
 
   if (thickness > 2) {
-    const left = dir + 0.2;
+    const left = Math.PI / 4 + 0.5 * (dir + 0.2) + bias * (Math.random() - 0.5);
     drawBranch(context, v1, length * 0.9, thickness * 0.8, left, bias * 0.9);
-    const right = dir - 0.2;
+    const right =
+      Math.PI / 4 + 0.5 * (dir - 0.2) + bias * (Math.random() - 0.5);
     drawBranch(context, v1, length * 0.9, thickness * 0.8, right, bias * 0.9);
   }
 
